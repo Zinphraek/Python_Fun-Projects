@@ -10,17 +10,16 @@ import re
 def isValidDate(dateString):
     """A regex function to identify valid date"""
 
-    dateRegex = re.compile(r'''(
+    dateRegex = re.compile(r'''
         ^(0[1-9]|[12][0-9]|3[01])/          # Day group
         (0[1-9]|1[0-2])/                    # Month group
         ((1|2)\d{3})$                       # Year group
-    )
     ''', re.VERBOSE)
     matchedDateObject = dateRegex.match(dateString)
     if not matchedDateObject:
         return False
 
-    day, month, year = matchedDateObject.group(2), matchedDateObject.group(3), matchedDateObject.group(4)
+    day, month, year = matchedDateObject.group(1), matchedDateObject.group(2), matchedDateObject.group(3)
     # print(f"day: {day}, month: {month}, year: {year}")
 
     isLeapYear = (int(year) % 100 == 0 and int(year) % 400 == 0) or (int(year) % 4 == 0)
