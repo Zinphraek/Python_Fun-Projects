@@ -25,7 +25,9 @@ def isPasswordStrong(passwordString):
     return bool(passwordRegex.match(passwordString))
 
 
-valid_passwords = [
+# Test
+
+validPasswords = [
     "Aa1!abcd",         # Minimum length with all required elements
     "Str0ngP@ssword",   # Longer password with all required elements
     "Abc123!@",         # Contains uppercase, lowercase, digits, and special characters
@@ -34,7 +36,7 @@ valid_passwords = [
     "12CharActer$",     # Exactly 8 characters with all required elements
 ]
 
-invalid_passwords = [
+invalidPasswords = [
     "abcdefg",          # No uppercase, digits, or special characters
     "ABCDEFGH",         # No lowercase, digits, or special characters
     "12345678",         # No letters or special characters
@@ -48,10 +50,10 @@ invalid_passwords = [
 ]
 
 
-for password in valid_passwords:
+for password in validPasswords:
     result = isPasswordStrong(password)
     print(f"Testing '{password}': {'Valid' if result else 'Invalid'} (Expected: Valid)")
 
-for password in invalid_passwords:
+for password in invalidPasswords:
     result = isPasswordStrong(password)
     print(f"Testing '{password}': {'Valid' if result else 'Invalid'} (Expected: Invalid)")

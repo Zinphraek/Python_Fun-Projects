@@ -33,7 +33,10 @@ def isValidDate(dateString):
 
     return True
 
-valid_dates = [
+
+# Tests
+
+validDates = [
     "01/01/2020",  # Regular valid date
     "29/02/2020",  # Leap year valid date
     "31/01/2021",  # End of January
@@ -44,7 +47,7 @@ valid_dates = [
     "10/10/1000",  # Start of the valid century range
 ]
 
-invalid_dates = [
+invalidDates = [
     "32/01/2020",  # Invalid day (32 doesn't exist)
     "00/01/2020",  # Invalid day (00 doesn't exist)
     "29/02/2021",  # Invalid leap year day
@@ -62,10 +65,10 @@ invalid_dates = [
     "2020/12/31",  # Invalid format (year first)
 ]
 
-for date in valid_dates:
+for date in validDates:
     result = isValidDate(date)
     print(f"Testing {date}: {'Valid' if result else 'Invalid'} (Expected: Valid)")
 
-for date in invalid_dates:
+for date in invalidDates:
     result = isValidDate(date)
     print(f"Testing {date}: {'Valid' if result else 'Invalid'} (Expected: Invalid)")
