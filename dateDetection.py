@@ -22,12 +22,10 @@ def isValidDate(dateString):
     day, month, year = matchedDateObject.group(1), matchedDateObject.group(2), matchedDateObject.group(3)
     # print(f"day: {day}, month: {month}, year: {year}")
 
-    isLeapYear = (int(year) % 100 == 0 and int(year) % 400 == 0) or (int(year) % 4 == 0)
+    isLeapYear = (int(year) % 4 == 0) and (int(year) % 100 != 0 or int(year) % 400 == 0)
 
-    if month == '02' and isLeapYear and int(day) > 29:
-        return False
-
-    if (month in ['04', '06', '09', '11'] and day == '31') or (month == '02' and not isLeapYear and int(day) > 28):
+    if (month in ['04', '06', '09', '11'] and day == '31') or \
+        (month == '02' and (not isLeapYear and int(day) > 28 or isLeapYear and int(day) > 29)):
         return False
 
     return True
@@ -50,6 +48,7 @@ invalidDates = [
     "32/01/2020",  # Invalid day (32 doesn't exist)
     "00/01/2020",  # Invalid day (00 doesn't exist)
     "29/02/2021",  # Invalid leap year day
+    "29/02/2500",  # Invalid leap year
     "31/04/2021",  # April has only 30 days
     "31/06/2021",  # June has only 30 days
     "31/09/2021",  # September has only 30 days
