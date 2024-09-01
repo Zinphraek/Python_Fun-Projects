@@ -15,7 +15,7 @@ datePattern = re.compile(r"""^(.*?) # all text before the date
 for usFileName in os.listdir('.'):
     matchObject = datePattern.search(usFileName)
 
-    # Skippig files not containning dates
+    # Skipping files not containning dates
     if matchObject == None:
         continue
 
