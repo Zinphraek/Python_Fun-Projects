@@ -8,10 +8,10 @@ fileNamePattern = re.compile(r"""
     ^([a-zA-Z]+)                    # all alphabet characters before the numbers
     (\d)                            # one digit
     ([^\n]*)                        # one or more characters
-    (\.sql)$                        # the 'sql' file extension
+    (\.sql)$                        # the '.sql' file extension
     """, re.VERBOSE)
 
-# Looping over the file in the working directory.
+# Looping over the file in the target directory.
 argv = sys.argv
 
 if len(argv) > 1:
@@ -29,13 +29,11 @@ if len(argv) > 1:
         numberSection = matchObject.group(2)
         afterNumberSection = matchObject.group(3)
         extensionSection = matchObject.group(4)
-        print(f'{beforeNumberSection}, {numberSection}, {afterNumberSection}, {extensionSection}')
 
         # Forming new filename.
         newFilename = beforeNumberSection + '0' + numberSection + afterNumberSection + extensionSection
 
         # Getting the full and absolute file paths.
-        #absWorkingDir = os.path.abspath(sqlFileName)
         currentFileName = os.path.join(path, currentFileName)
         newFilename = os.path.join(path, newFilename)
 
