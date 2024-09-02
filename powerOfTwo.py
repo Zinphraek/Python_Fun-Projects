@@ -2,23 +2,19 @@
 
 import math, random, time
 
-# 1. List Comprehension with Bitwise Operation
+# 1. List Comprehension with Bitwise Operation (Fastest)
 def isPowerOfTwoListComp(arr):
     return [1 if n > 0 and (n & (n - 1)) == 0 else 0 for n in arr]
 
-# 2. Generator Function Converted to List
+# 2. Generator Function Converted to List (Second Fastest)
 def isPowerOfTwoGeneratorToList(arr):
     return list(1 if n > 0 and (n & (n - 1)) == 0 else 0 for n in arr)
 
-# 3. List Comprehension with Logarithm-based Integer Conversion
-def isPowerOfTwoLogIntVersion(arr):
-    return [1 if n > 0 and 2**int(math.log2(n)) == n else 0 for n in arr]
-
-# 4. List Comprehension with Logarithm-based Modulo Check
+# 3. List Comprehension with Logarithm-based Modulo Check (Third Fastest)
 def isPowerOftwoListCompVersion2(arr):
     return [0 if n == 0 or not math.log2(n) % 1 == 0 else 1 for n in arr]
 
-# 5. For Loop Version with Logarithm-based Check
+# 4. For Loop Version with Logarithm-based Check (Fourth Fastest)
 def isPowerOfTwoForLoopVersion(arr):
     result = []
     for n in arr:
@@ -27,6 +23,11 @@ def isPowerOfTwoForLoopVersion(arr):
         else:
             result.append(1)
     return result
+
+# 5. List Comprehension with Logarithm-based Integer Conversion (Fifth Fastest)
+def isPowerOfTwoLogIntVersion(arr):
+    return [1 if n > 0 and 2**int(math.log2(n)) == n else 0 for n in arr]
+
 
 # Testing the functions.
 def generateArray(n, maxRange=1000):
