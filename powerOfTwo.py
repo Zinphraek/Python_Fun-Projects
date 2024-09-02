@@ -33,8 +33,8 @@ def generateArray(n, maxRange=1000):
     """Generating a large dataset of random numbers."""
     return [random.randint(0, maxRange) for _ in range(n)]
 
-# Generate a large array of 1,000,000 random numbers
-originalArray = generateArray(10_000_000)
+# Generating a large array of 1,000,000 random numbers
+originalArray = generateArray(1_000_000)
 
 # Dictionary to store function references and their descriptions
 functions_to_test = {
@@ -45,9 +45,6 @@ functions_to_test = {
     "For Loop (Log Modulo Check)": isPowerOfTwoForLoopVersion
 }
 
-# Dictionary to store the results for verification (optional)
-results = {}
-
 # Testing each function and measuring execution time
 for description, func in functions_to_test.items():
     startTime = time.time()
@@ -55,4 +52,3 @@ for description, func in functions_to_test.items():
     endTime = time.time()
     elapsed_time = endTime - startTime
     print(f"{description} took: {elapsed_time:.4f} seconds")
-    results[description] = result  # Storing results if needed for verification
