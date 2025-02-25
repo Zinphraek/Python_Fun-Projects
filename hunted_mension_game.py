@@ -17,7 +17,7 @@ def initialize_rooms_content(item_list, room_list):
             "bug_nest": False,
             "mango": False
         }
-    # Entrance Hall always holds the Map relocator as a collectible item
+    # Entrance Hall always holds the Map relocator as a pressable button.
     rooms_content["Entrance Hall"] = {
         "item": "Map relocator",
         "cockroaches": 0,
