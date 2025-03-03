@@ -17,7 +17,7 @@ def initialize_rooms_content(item_list, room_list):
             "bug_nest": False,
             "mango": False
         }
-    # Entrance Hall always holds the Map relocator as a pressable button.
+    # Entrance Hall always holds the Map relocator button
     rooms_content["Entrance Hall"] = {
         "item": "Map relocator",
         "cockroaches": 0,
@@ -162,7 +162,7 @@ def show_inventory(inventory):
 def try_collect_item(room, rooms_content, inventory):
     if room in rooms_content and rooms_content[room]["item"] is not None:
         item = rooms_content[room]["item"]
-        print("You see the", item if room != 'Entrance Hall' else 'Relocate map button', "here.")
+        print("There is the", item if room != 'Entrance Hall' else 'Relocate map button', "here.", end=" ")
         answer = input(f"Do you want to { 'pick it up' if room != 'Entrance Hall' else 'press it' }? (Y/N): ").upper()
         while answer not in ["Y", "N"]:
             answer = input("Invalid input. Please enter Y or N: ").upper()
@@ -176,13 +176,11 @@ def try_collect_item(room, rooms_content, inventory):
                 relocate_mansion_map(rooms_content, inventory)
         else:
             print(f"You chose not to {f'pick it up the {item}' if room != 'Entrance Hall' else 'press the Map relocator button' } right now.")
-    else:
-        print("There is no item to collect in", room, ".")
 
 
 def try_collect_bug_spray_or_mango(room, item, rooms_content, inventory):
     if room in rooms_content and rooms_content[room].get(item, False):
-        print(f"You see a {'mango 🥭' if item == 'mango' else 'bug spray 🧴'} here.")
+        print(f"There is a {'mango 🥭' if item == 'mango' else 'bug spray 🧴'} here.", end=" ")
         answer = input("Do you want to pick it up? (Y/N): ").upper()
         while answer not in ["Y", "N"]:
             answer = input("Invalid input. Please enter Y or N: ").upper()
@@ -195,13 +193,11 @@ def try_collect_bug_spray_or_mango(room, item, rooms_content, inventory):
             print(f"You picked up the {'mango 🥭' if item == 'mango' else 'bug spray 🧴'} and added it to your inventory.\n")
         else:
             print(f"You chose not to pick up the {'mango 🥭' if item == 'mango' else 'bug spray 🧴'} right now.\n")
-    else:
-        print(f"There is no {'mango 🥭' if item == 'mango' else 'bug spray 🧴'} to collect in the", room, ".\n")
 
 
 def try_collect_map(room, rooms_content, inventory):
     if room in rooms_content and rooms_content[room]["map"]:
-        print("You see the map 🗺️ here.")
+        print("The map 🗺️ is in this room.", end=" ")
         answer = input("Do you want to pick it up? (Y/N): ").upper()
         while answer not in ["Y", "N"]:
             answer = input("Invalid input. Please enter Y or N: ").upper()
@@ -211,8 +207,6 @@ def try_collect_map(room, rooms_content, inventory):
             print("You picked up the map 🗺️ and added it to your inventory.\n")
         else:
             print("You chose not to pick up the map 🗺️ right now.\n")
-    else:
-        print("There is no map to collect in", room, ".")
 
 
 def use_spray(room, rooms_content, inventory, cockroach_count, health_points, game_over):
@@ -227,10 +221,8 @@ def use_spray(room, rooms_content, inventory, cockroach_count, health_points, ga
             health_points -= 3
             if health_points <= 0:
                 game_over = True
-        return cockroach_count, health_points, game_over
-    else:
-        print("There are no bugs here to spray.")
-        return cockroach_count, health_points, game_over
+
+    return cockroach_count, health_points, game_over
 
 def destroy_bug_nest(room, rooms_content, inventory, health_points, is_cockroach_nest_active,  game_over):
     if rooms_content[room]["bug_nest"]:
@@ -283,7 +275,7 @@ def show_instructions(menu):
 
 def check_and_fight_bugs(room, rooms_content, inventory, cockroach_count, health_points, game_over, room_map):
     if rooms_content[room]["cockroaches"] > 0:
-        print("\nWatch out🥶, there is a cockroach!")
+        print("\nWatch out🥶, there is a cockroach🪳!")
         valid_action = False
         next_room = room
         while not valid_action:
@@ -319,7 +311,7 @@ def handle_user_input(current_room, user_input, game_over, inventory, game_map, 
         else:
             return next_room, health_points, game_over
     elif user_input == 'R':
-        # Map relocator command, available only at Entrance Hall if the player has it.
+        # Map relocator command, available and activated only at Entrance Hall if the player has not collected the map yet.
         if current_room == "Entrance Hall":
                 relocate_mansion_map(rooms_content)
         else:
@@ -399,34 +391,34 @@ def main():
     # Place the map in a random room at the beginning of the game
     place_initial_map(rooms_content)
 
-    actions = {
+    menu = {
         "N": "Move North",
         "S": "Move South",
         "E": "Move East",
         "W": "Move West",
         "I": "Show Inventory",
         "H": "Show Mansion Map (if collected)",
-        "R": "Relocate Map (only in Entrance Hall)",
+        "R": "Relocate Map (only at the Entrance Hall)",
         "M": "Show Menu",
         "T": "Show Status",
         "X": "Exit Game"
     }
 
-    show_instructions(actions)
+    show_instructions(menu)
     # Main game loop
     while not game_over:
         cockroach_count = spawn_cockroaches(rooms_content, is_cockroach_nest_active, cockroach_count, current_room)
         bug_spray_count = distribute_bug_spray(rooms_content, cockroach_count, bug_spray_count)
 
         print("\nYou are in", current_room)
-        user_input = input("Enter a direction (N, S, E, W) or a command: ").upper()
+        user_input = input("Enter a direction (N, S, E, W) or 'M' for the menu: ").upper()
 
-        if user_input not in actions.keys():
-            print("Invalid input. Please enter a valid command from the menu.")
+        if user_input not in menu.keys():
+            print("Invalid input. Please enter a valid command. Enter 'M' for the menu.")
             continue
 
         next_room, health_points, game_over = handle_user_input(
-            current_room, user_input, game_over, inventory, game_map, actions, health_points, room_map, rooms_content)
+            current_room, user_input, game_over, inventory, game_map, menu, health_points, room_map, rooms_content)
         if next_room != current_room:
             current_room = next_room
             print("You moved to the", current_room)
@@ -444,20 +436,20 @@ def main():
                     next_room, rooms_content, inventory, health_points, is_cockroach_nest_active, game_over)
             else:
                 next_room, health_points, game_over = handle_user_input(
-                    current_room, user_input, game_over, inventory, game_map, actions, health_points, room_map,
+                    current_room, user_input, game_over, inventory, game_map, menu, health_points, room_map,
                     rooms_content)
 
 
 
-        if current_room == "Basement" and len(inventory['items']) < 9:
+        if current_room == "Basement" and len(list(inventory['items'])) < 9:
             print("You have entered the Basement and encountered The Shadow Keeper ☣☢️🔱🩻🔱☢️☣ before collecting all relics.")
             print("☠️ NOM NOM...GAME OVER ☠️!\n Thanks for playing the game. Hope you enjoyed it.")
             game_over = True
             break
 
-        if current_room == "Basement" and len(inventory['items']) >= 9:
+        if current_room == "Basement" and len(list(inventory['items'])) >= 9:
             print("The Shadow Keeper ☣☢️🔱🩻🔱☢️☣ is lurking in this room. But don't worry you are unbeatable.")
-            user_answer = input("Press 'A' to annilate it, or 'X' to exit teh game: ").upper()
+            user_answer = input("Press 'A' to annilate it, or 'X' to exit the game: ").upper()
             while user_answer not in ['A', 'X']:
                 print("Invalid entry.")
                 user_answer = input("Press 'A' to annilate it, or 'X' to exit teh game. ").upper()
@@ -476,10 +468,10 @@ def main():
             if user_answer == 'Y':
                 health_points = consume_mango(health_points, inventory)
 
-        if len(inventory['items']) == 9:
+        if len(list(inventory['items'])) >= 9:
             if not player_collected_all_items_and_was_informed:
                 print("Congratulations! You have collected all relics.")
-                print("Now, you may safely explore or even confront the curse.")
+                print("Now, you may safely explore the mension or even confront the curse.")
                 player_collected_all_items_and_was_informed = True
 
 if __name__ == "__main__":
