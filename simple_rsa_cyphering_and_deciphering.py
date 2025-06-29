@@ -86,6 +86,6 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
 
     # Now try user input cipher
-    print("Test your cipher:")
+    print("Decrypt your cipher")
     user_cipher = input("Enter your cypher (your encrypted message): ")
     decrypt_text(user_cipher)
